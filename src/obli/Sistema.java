@@ -50,8 +50,18 @@ public class Sistema implements ISistema {
 	}
 
 	@Override
-	public Retorno eliminarCarpeta(int fichero, String nombreCarpeta) {
-		return new Retorno(TipoRet.NO_IMPLEMENTADA);
+	public Retorno eliminarCarpeta(int fichero, String nombreCarpeta) {		
+		if (fichero < 1 || fichero > cantFicheros) {
+			return new Retorno(TipoRet.ERROR_1);
+		} else {
+			fichero--;
+			if (!ficheros[fichero].getCarpetas().existe(new Carpeta(-1, nombreCarpeta))) {
+				return new Retorno(TipoRet.ERROR_2);				
+			} else {				
+				ficheros[fichero].getCarpetas().borrar(new Carpeta(maxArchivosPorCarpeta, nombreCarpeta));
+				return new Retorno(TipoRet.OK);
+			}
+		}
 	}
 
 	@Override
@@ -80,7 +90,24 @@ public class Sistema implements ISistema {
 
 	@Override
 	public Retorno insertarArchivo(int fichero, String nombreCarpeta, int posicionArchivo, String nomArchivo) {
-		return new Retorno(TipoRet.NO_IMPLEMENTADA);
+		if (fichero < 1 || fichero > cantFicheros) {
+			return new Retorno(TipoRet.ERROR_1);
+		} else {
+			fichero--;
+			if (!ficheros[fichero].getCarpetas().existe(new Carpeta(-1, nombreCarpeta))) {
+				return new Retorno(TipoRet.ERROR_2);
+			} else {
+				if(posicionArchivo < 1 || posicionArchivo > this.maxArchivosPorCarpeta){
+					return new Retorno(TipoRet.ERROR_3);
+				} else {
+					// Inserta un archivo en la posición indicada 
+					// y mueve todos los archivos que se encuentran a partir de la posición indicada, 
+					// una posición más adelante.
+					return new Retorno(TipoRet.OK);
+				}
+				
+			}
+		}			
 	}
 
 	@Override

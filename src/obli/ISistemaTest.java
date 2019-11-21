@@ -61,6 +61,10 @@ public class ISistemaTest {
 
 		ret = sis.agregarCarpeta(1, "Car1");
 		assertEquals(Retorno.TipoRet.OK, ret.resultado);
+		
+		ret = sis.agregarCarpeta(2, "Car2");
+		assertEquals(Retorno.TipoRet.OK, ret.resultado);
+
 
 		ret = sis.agregarCarpeta(1, "Car1");
 		assertEquals(Retorno.TipoRet.ERROR_2, ret.resultado);
@@ -69,17 +73,85 @@ public class ISistemaTest {
 
 	@Test
 	public void testEliminarCarpeta() {
-		fail("Not yet implemented");
+		
+		sis.crearSistemaArchivos(10, 10);		
+		
+		sis.agregarCarpeta(1, "Car1");
+		
+		sis.agregarCarpeta(2, "Car2");		
+			
+		Retorno ret;
+		
+		ret = sis.eliminarCarpeta(1, "Car1");
+		assertEquals(Retorno.TipoRet.OK, ret.resultado);
+		
+		ret = sis.eliminarCarpeta(2, "Car2");
+		assertEquals(Retorno.TipoRet.OK, ret.resultado);
+		
+		ret = sis.eliminarCarpeta(3, "Car3");
+		assertEquals(Retorno.TipoRet.ERROR_2, ret.resultado);
+		
+		ret = sis.eliminarCarpeta(20, "invalida");
+		assertEquals(Retorno.TipoRet.ERROR_1, ret.resultado);
+		
+		ret = sis.eliminarCarpeta(0, "invalida");
+		assertEquals(Retorno.TipoRet.ERROR_1, ret.resultado);		
 	}
 
 	@Test
 	public void testListarCarpeta() {
-		fail("Not yet implemented");
+		
+		sis.crearSistemaArchivos(10, 10);		
+		
+		sis.agregarCarpeta(1, "Car1");
+		
+		sis.agregarCarpeta(2, "Car2");		
+			
+		Retorno ret;
+		
+		ret = sis.listarCarpeta(1, "Car1");
+		assertEquals(Retorno.TipoRet.OK, ret.resultado);
+		
+		ret = sis.listarCarpeta(2, "Car2");
+		assertEquals(Retorno.TipoRet.OK, ret.resultado);
+		
+		ret = sis.listarCarpeta(3, "Car3");
+		assertEquals(Retorno.TipoRet.ERROR_2, ret.resultado);
+		
+		ret = sis.listarCarpeta(20, "invalida");
+		assertEquals(Retorno.TipoRet.ERROR_1, ret.resultado);
+		
+		ret = sis.listarCarpeta(0, "invalida");
+		assertEquals(Retorno.TipoRet.ERROR_1, ret.resultado);	
 	}
 
 	@Test
 	public void testInsertarArchivo() {
-		fail("Not yet implemented");
+		sis.crearSistemaArchivos(10, 10);		
+		
+		sis.agregarCarpeta(1, "Car1");
+		
+		sis.agregarCarpeta(2, "Car2");		
+			
+		Retorno ret;
+		// falta implementar el insert
+		ret = sis.insertarArchivo(1, "Car1", 1, "Arch1");
+		assertEquals(Retorno.TipoRet.OK, ret.resultado);		
+		
+		ret = sis.insertarArchivo(2, "Car2", 1, "Arch1");
+		assertEquals(Retorno.TipoRet.OK, ret.resultado);
+		
+		ret = sis.insertarArchivo(1, "Car1", 45, "Arch1");
+		assertEquals(Retorno.TipoRet.ERROR_3, ret.resultado);
+		
+		ret = sis.insertarArchivo(3, "Car3", 1, "Arch1");
+		assertEquals(Retorno.TipoRet.ERROR_2, ret.resultado);
+		
+		ret = sis.insertarArchivo(20, "invalida", 1, "fail");
+		assertEquals(Retorno.TipoRet.ERROR_1, ret.resultado);
+		
+		ret = sis.insertarArchivo(0, "invalida", 1, "fail");
+		assertEquals(Retorno.TipoRet.ERROR_1, ret.resultado);	
 	}
 
 	@Test
