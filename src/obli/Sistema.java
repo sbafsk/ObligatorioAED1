@@ -2,6 +2,7 @@ package obli;
 
 import dominio.Carpeta;
 import dominio.Fichero;
+import listas.ILista;
 import obli.Retorno.TipoRet;
 
 public class Sistema implements ISistema {
@@ -90,20 +91,29 @@ public class Sistema implements ISistema {
 
 	@Override
 	public Retorno insertarArchivo(int fichero, String nombreCarpeta, int posicionArchivo, String nomArchivo) {
+		
+		Carpeta carpeta = new Carpeta(-1, nombreCarpeta);
+		
+		System.out.println(nombreCarpeta + "/" + nomArchivo);
+		System.out.println("largo " + carpeta.getArchivos().largo());
+		System.out.println("posicion " + posicionArchivo);
+		
 		if (fichero < 1 || fichero > cantFicheros) {
 			return new Retorno(TipoRet.ERROR_1);
 		} else {
 			fichero--;
-			if (!ficheros[fichero].getCarpetas().existe(new Carpeta(-1, nombreCarpeta))) {
+			if (!ficheros[fichero].getCarpetas().existe(carpeta)) {
 				return new Retorno(TipoRet.ERROR_2);
-			} else {
-				if(posicionArchivo < 1 || posicionArchivo > this.maxArchivosPorCarpeta){
+			} else {				
+				if(posicionArchivo < 1 || posicionArchivo > carpeta.getArchivos().largo() + 1){
 					return new Retorno(TipoRet.ERROR_3);
-				} else {
-					// Inserta un archivo en la posición indicada 
-					// y mueve todos los archivos que se encuentran a partir de la posición indicada, 
-					// una posición más adelante.
+				} else {					
+					ILista<String> listaArchivos = carpeta.getArchivos(); 					
+					listaArchivos.insertarEnPos(nomArchivo, posicionArchivo);
+					carpeta.setArchivos(listaArchivos);
+					System.out.println("largo new" + carpeta.getArchivos().largo());
 					return new Retorno(TipoRet.OK);
+					
 				}
 				
 			}
